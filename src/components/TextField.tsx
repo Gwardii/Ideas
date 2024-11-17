@@ -35,6 +35,8 @@ export const TextField = ({
       {...register(name)}
       InputProps={{ ...props.InputProps, ...InputProps }}
       helperText={error ? error.message : helperText}
+      multiline
+      rows={10}
     />
   );
 };

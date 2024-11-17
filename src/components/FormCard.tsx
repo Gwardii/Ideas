@@ -26,6 +26,7 @@ export const FormCardTitle = ({ tooltip, ...props }: FormCardTitleProps) => {
         fontSize="24px"
         fontWeight={700}
         color="#544f40"
+        width="40vw"
         mb="16px"
         {...props}
       />

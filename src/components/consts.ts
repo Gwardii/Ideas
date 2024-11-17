@@ -93,3 +93,56 @@ export const investmentLevels = [
   "2 000 001-5 000 000 Euro",
   "Over 5 000 000 Euro"
 ]
+
+export const personas = {
+  "orcid": [
+    {
+      "name": "Pedro M. Arezes",
+      "type": "profile",
+      "directLink": "https://orcid.org/0000-0001-9421-9123"
+    },
+    {
+      "name": "Jan B.F. van Erp",
+      "type": "profile",
+      "directLink": "https://orcid.org/0000-0002-6511-2850"
+    }
+  ],
+  "linkedin": [
+    {
+      "name": "Piotr Falkowski",
+      "type": "post",
+      "directLink": "https://www.linkedin.com/posts/piotr-wojciech-falkowski_poland-turkiye-exoskeleton-activity-7258816258672914432-7yj5"
+    },
+    {
+      "name": "Human In Motion Robotics Inc.",
+      "type": "company",
+      "directLink": "https://ca.linkedin.com/company/humaninmotionrobotics"
+    },
+    {
+      "name": "Kat Steele",
+      "type": "post",
+      "directLink": "https://www.linkedin.com/posts/kat-steele_we-said-goodbye-to-the-trexo-exoskeleton-activity-7174487084332642304-eUfW"
+    },
+    {
+      "name": "Genrobotics",
+      "type": "company",
+      "directLink": "https://in.linkedin.com/company/genrobotics"
+    },
+    {
+      "name": "Surgical Robotics Technology",
+      "type": "company",
+      "directLink": "https://uk.linkedin.com/company/surgicalroboticstechnology"
+    },
+    {
+      "name": "Wandercraft",
+      "type": "company",
+      "directLink": "https://kh.linkedin.com/company/wandercraft"
+    },
+    {
+      "name": "Corinna Welling, PhD",
+      "type": "profile",
+      "directLink": "https://hk.linkedin.com/in/corinna-welling-phd-632839a9"
+    }
+  ],
+  "researchgate": []
+}

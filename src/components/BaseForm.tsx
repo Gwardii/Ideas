@@ -9,7 +9,10 @@ import { FormCard, FormCardTitle } from 'components/FormCard';
 import { Select } from './Select';
 import { MultiSelect } from './MultiSelect';
 import { TextField } from './TextField';
-import { companyDevelopmentLevels, investmentLevels, operatingFieldsOfCompany, researchFields } from './consts';
+import { companyDevelopmentLevels, investmentLevels, operatingFieldsOfCompany, personas, researchFields } from './consts';
+import { Personas } from './Presonas';
+import { PersonasType } from 'pages/CreateBaseForm';
+import { useState } from 'react';
 
 export const FormContainer = (props: BoxProps) => (
   <Box display="grid" gridTemplateColumns="1fr 1fr" gap="24px" {...props} />
@@ -35,7 +38,7 @@ export const ResearcherSeekForm = () => {
         { value: "TRL 7 - TRL 9 (Experimental development)" },
       ]} />
       <MultiSelect label="Research field" name="researchField" options={researchFields} />
-      <TextField name="abstractOfThePlannedResearch" label="Abstract of the planned research" />
+      <TextField name="abstract" label="Abstract of the planned research" />
     </>
   );
 };
@@ -66,7 +69,7 @@ const EntrepreneurSeekForm = () => {
     {who === 'Investors' && <Select name="idealInvestment"
       label="Ideal investment level"
       options={investmentLevels.map(x => ({ value: x }))} />}
-    <TextField name="abstractOfThePlannedResearch" label={abstractLabel} />
+    <TextField name="abstract" label={abstractLabel} />
   </>
 }
 
@@ -79,7 +82,7 @@ const FirstStep = (props: FirstStepProps) => {
 
   return (
     <FormContainer>
-      <FormColumn sx={{ transform: formState.isSubmitting ? 'translateX(0)' : 'translateX(100px)', transition: "transform 0.5s ease" }}>
+      <FormColumn sx={{ transform: formState.isSubmitting || formState.isSubmitSuccessful ? 'translateX(0)' : 'translateX(100px)', transition: "transform 0.5s ease" }}>
         <FormCard gap="16px">
           <FormCardTitle>Who are you?</FormCardTitle>
           <Select name="userType" options={[
@@ -120,6 +123,10 @@ const FirstStep = (props: FirstStepProps) => {
         <Skeleton variant="rectangular" width="100%" height="100%" />
       </FormColumn>
       }
+      {formState.isSubmitSuccessful && <FormColumn>
+        <Personas personas={props.personas} />
+      </FormColumn>
+      }
     </FormContainer>
   );
 };
@@ -127,13 +134,15 @@ const FirstStep = (props: FirstStepProps) => {
 export const baseFormSchema = z.object({
   userType: z.string().optional(),
   who: z.string().optional(),
+  researchField: z.string().optional().array(),
+  abstract: z.string().optional(),
 });
 
 export type BaseFormValues = z.infer<typeof baseFormSchema>;
 
 type BaseFormProps = {
   defaultValues: DefaultValues<BaseFormValues>;
-  onSubmit: (values: BaseFormValues) => Promise<void>;
+  onSubmit: (values: BaseFormValues) => Promise<PersonasType>;
 };
 export const BaseForm = (
   props: BaseFormProps,
@@ -144,12 +153,15 @@ export const BaseForm = (
     defaultValues: props.defaultValues,
   });
 
+  const [personas, setPersonas] = useState<PersonasType | null>(null);
+
   const { isDirty } = form.formState;
   usePreventUnload({ shouldPrevent: isDirty });
 
   const handleSubmit = async (values: BaseFormValues) => {
     try {
-      await props.onSubmit(values);
+      const personas = await props.onSubmit(values);
+      setPersonas(personas);
     } finally {
       form.reset(form.getValues());
     }
@@ -164,6 +176,7 @@ export const BaseForm = (
           )()}
       >
         <FirstStep
+          personas={personas}
           onSubmit={() =>
             form.handleSubmit(handleSubmit, (errors) =>
               console.log(errors, form.getValues()),
